@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7475d745d440f234ca2666b04a33f514, type: 3}
+  m_Name: Round flask 2
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 4382796210837067571, guid: 33428936092653b4f9a5e693b9b047b4, type: 3}
+  type: 0
+  description: 
+  LabProcessingTime: 0

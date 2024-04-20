@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Collectableitems : MonoBehaviour
 {
+    public InventoryObject labInventory;
+
+    public ItemObject item;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            labInventory.AddItem(item,1);
             Destroy(gameObject);
             //gameObject.SetActive(false);
         }
