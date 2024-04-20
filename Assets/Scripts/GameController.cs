@@ -3,11 +3,19 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
 
-    [SerializeField] private GameObject _labCollectablePanel;
+    [SerializeField] private GameObject inventoryPanel;
 
-     public void CloseCollectablePanel(){
-        Debug.Log
-        ("Pressed");
-        _labCollectablePanel.SetActive(false);
+    void Start(){
+        Cursor.visible=false;
+    }
+     public void OpenInventoryPanel(){
+        inventoryPanel.SetActive(true);
+    }
+    public void CloseInventoryPanel(){
+        inventoryPanel.SetActive(false);
+        Invoke("HideCursor", 1);
+    }
+    void HideCursor(){
+        Cursor.visible = false;
     }
 }

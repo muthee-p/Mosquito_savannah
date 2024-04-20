@@ -16,7 +16,7 @@ public class LabInventoryController: MonoBehaviour{
         for (int i = 0; i < labInventory.Container.Count; i++)
         {
             rounded_flask_2_text.text = labInventory.Container[0].amount.ToString("n0");
-            round_flask_3_text.text = labInventory.Container[2].amount.ToString("n0");
+            round_flask_3_text.text = labInventory.Container[1].amount.ToString("n0");
         }
         
     }

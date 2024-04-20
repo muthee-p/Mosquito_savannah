@@ -4,8 +4,8 @@ using UnityEngine;
 
 public enum ItemType{
     Lab_equipment,
-    Plants,
-    Default
+    LarvicidePlant,
+    CurePlant
 }
 
 public abstract class ItemObject : ScriptableObject
