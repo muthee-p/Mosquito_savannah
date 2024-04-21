@@ -15,4 +15,5 @@ MonoBehaviour:
   prefab: {fileID: 4492877960904813204, guid: 60a37fb6e47a96d4d80d11686a84d1f3, type: 3}
   type: 0
   description: 
+  sprite: {fileID: 21300000, guid: ff7bfa7addf40784d86f62b8e4a034a6, type: 3}
   LabProcessingTime: 0

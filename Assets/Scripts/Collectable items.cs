@@ -11,7 +11,7 @@ public class Collectableitems : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            labInventory.AddItem(item,1);
+            labInventory.AddItem(item,1,item.sprite);
             Destroy(gameObject);
             //gameObject.SetActive(false);
         }
