@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CinemachineTarget
   - water_source_1
+  - Bot
   layers:
   - Default
   - TransparentFX

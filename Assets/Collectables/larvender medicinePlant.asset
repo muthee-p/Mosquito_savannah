@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbe7e52f90e4e9f4ba17eec330ff4da3, type: 3}
+  m_Name: larvender medicinePlant
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1407896626508352091, guid: 0fd230777e8d28d41ad4801d682c7a12, type: 3}
+  type: 2
+  description: 
+  sprite: {fileID: 21300000, guid: f80dce8bb8b80d8468fbdb9d4d0d26fb, type: 3}

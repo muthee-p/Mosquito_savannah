@@ -1,3 +1,4 @@
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +7,7 @@ public class TakeSample : MonoBehaviour
     [SerializeField] private GameObject _takeSample;
     [SerializeField] Image _currentTask;
     [SerializeField] private Sprite _fullTestTube;
+    public int _sampleAmount;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -16,6 +18,7 @@ public class TakeSample : MonoBehaviour
         }
     }
     private void HidePanel(){
+        _sampleAmount=1;
         _takeSample.SetActive(false);
         gameObject.GetComponent<BoxCollider>().enabled=false;
     }
