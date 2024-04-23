@@ -23,6 +23,8 @@ public class GameController : MonoBehaviour
 
     void Update(){
         DisplayLabInventory();
+        DisplayLarvicidePlantInventory();
+        DisplayMedicinalPlantsInventory();
     }
     public void OpenInventoryPanel(){
         _inventoryPanel.SetActive(true);
@@ -57,12 +59,14 @@ public class GameController : MonoBehaviour
             {
                 _itemAmountText[0].text = _medicinalPlantsInventory.Container[0].amount.ToString();
                 _itemAmountText[1].text = _medicinalPlantsInventory.Container[1].amount.ToString();
+                _itemAmountText[2].text = _medicinalPlantsInventory.Container[2].amount.ToString();
             } 
             
             for (int k = 0; k < _itemImages.Length; k++)
             {
-               _itemImages[0].sprite =_medicinalPlantsInventory.Container[0].sprite;
-               _itemImages[1].sprite = _medicinalPlantsInventory.Container[1].sprite;
+                _itemImages[0].sprite =_medicinalPlantsInventory.Container[0].sprite;
+                _itemImages[1].sprite = _medicinalPlantsInventory.Container[1].sprite;
+                _itemImages[2].sprite = _medicinalPlantsInventory.Container[2].sprite;
             }
         }
         //MedicineButton.interactable = false;
@@ -75,12 +79,14 @@ public class GameController : MonoBehaviour
             {
                 _itemAmountText[0].text = _larvicidePlantInventory.Container[0].amount.ToString();
                 _itemAmountText[1].text = _larvicidePlantInventory.Container[1].amount.ToString();
+                _itemAmountText[2].text = _larvicidePlantInventory.Container[2].amount.ToString();
             } 
             
             for (int k = 0; k < _itemImages.Length; k++)
             {
                _itemImages[0].sprite =_larvicidePlantInventory.Container[0].sprite;
                _itemImages[1].sprite =_larvicidePlantInventory.Container[1].sprite;
+               _itemImages[2].sprite =_larvicidePlantInventory.Container[2].sprite;
             }
         }
     }
