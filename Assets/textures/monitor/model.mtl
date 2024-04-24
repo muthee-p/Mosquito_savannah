@@ -1,0 +1,51 @@
+# exported by https://3dviewer.net
+newmtl Material.005
+Kd 1 1 1
+d 1
+map_Kd Material.005_baseColor.jpeg
+newmtl Material.010
+Kd 1 1 1
+d 1
+map_Kd Material.005_baseColor.jpeg
+newmtl Material.012
+Kd 1 1 1
+d 1
+map_Kd Material.005_baseColor.jpeg
+newmtl None
+Kd 1 1 1
+d 1
+map_Kd Material.005_baseColor.jpeg
+newmtl Material.011
+Kd 1 1 1
+d 1
+map_Kd Material.005_baseColor.jpeg
+newmtl Material.018
+Kd 1 1 1
+d 1
+map_Kd Material.005_baseColor.jpeg
+newmtl Material.019
+Kd 1 1 1
+d 1
+map_Kd Material.005_baseColor.jpeg
+newmtl Material.014
+Kd 1 1 1
+d 1
+map_Kd Material.005_baseColor.jpeg
+newmtl Material.013
+Kd 1 1 1
+d 1
+map_Kd Material.005_baseColor.jpeg
+newmtl Material.015
+Kd 1 1 1
+d 1
+map_Kd Material.005_baseColor.jpeg
+newmtl Material.016
+Kd 1 1 1
+d 1
+newmtl Material.017
+Kd 1 1 1
+d 1
+map_Kd Material.005_baseColor.jpeg
+newmtl Material.002
+Kd 1 1 1
+d 1

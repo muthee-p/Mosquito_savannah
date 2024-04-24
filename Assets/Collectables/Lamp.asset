@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7475d745d440f234ca2666b04a33f514, type: 3}
   m_Name: Lamp
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
+  prefab: {fileID: 2769072218915759156, guid: 267500d252a1926499141fd562ab10e2, type: 3}
   type: 0
   description: 
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 3b730d4b1341a59439b22b33c811bd1a, type: 3}
   LabProcessingTime: 0.01

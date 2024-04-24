@@ -12,7 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cadef2edf704f2a47b602eae89563c09, type: 3}
   m_Name: _MedicinalPlantInventory
   m_EditorClassIdentifier: 
-  Container:
-  - item: {fileID: 11400000, guid: 33fd70795cf69d74cba8194e9ec4a27a, type: 2}
-    amount: 2
-    sprite: {fileID: 21300000, guid: d5148259a1605a045a8496f01138cb51, type: 3}
+  Container: []

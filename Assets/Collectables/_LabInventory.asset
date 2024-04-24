@@ -12,10 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cadef2edf704f2a47b602eae89563c09, type: 3}
   m_Name: _LabInventory
   m_EditorClassIdentifier: 
-  Container:
-  - item: {fileID: 11400000, guid: c28d9558b02ffcb42b9d03c6b277b643, type: 2}
-    amount: 1
-    sprite: {fileID: 21300000, guid: 2d482ee19a772cf4c8abd7e7fb49191f, type: 3}
-  - item: {fileID: 11400000, guid: 239a87c9dd954114d85e3a34895a59a0, type: 2}
-    amount: 1
-    sprite: {fileID: 21300000, guid: 5db1774c49875b148985ea5675e68573, type: 3}
+  Container: []

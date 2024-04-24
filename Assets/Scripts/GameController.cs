@@ -32,21 +32,21 @@ public class GameController : MonoBehaviour
 
     public void DisplayLabInventory()
     {
-        _heading.text = "Lab Inventory";
+       
         ResetValues();
         _currentInventory=_labInventory;
     }
 
     public void DisplayMedicinalPlantsInventory()
     {
-        _heading.text = "Medicinal Plants Inventory";
+       
         ResetValues();
         _currentInventory=_medicinalPlantsInventory;
     }
 
     public void DisplayLarvicidePlantInventory()
     {
-        _heading.text = "Larvicide Plants Inventory";
+        
         ResetValues();
         _currentInventory=_larvicidePlantInventory;
         
@@ -62,16 +62,19 @@ public class GameController : MonoBehaviour
 
     private void InventoryButtonsController(){
         if(_currentInventory == _labInventory){
+             _heading.text = "Lab Inventory";
             InventoryDisplayController(_labInventory);
         }
         else if(_currentInventory == _medicinalPlantsInventory){
-            
+             _heading.text = "Medicinal Plants Inventory";
         InventoryDisplayController(_medicinalPlantsInventory);
         }
         else if(_currentInventory == _larvicidePlantInventory){
+            _heading.text = "Larvicide Plants Inventory";
             InventoryDisplayController(_larvicidePlantInventory);
         }
         else{
+            _heading.text = "Inventory";
             ResetValues();
         }
     }
