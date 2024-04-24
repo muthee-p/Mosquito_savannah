@@ -57,7 +57,7 @@ public class BotScript : MonoBehaviour
     private void SendBot(){
         _isBotAvailable=false;
         _sendingPanel.SetActive(false);
-        Bot.GetComponent<Animator>().enabled = true;
+        Bot.GetComponent<Animator>().SetTrigger("bot");
     }
 
     private void ReduceMalaria(){
@@ -66,7 +66,7 @@ public class BotScript : MonoBehaviour
     void BotBack(){
         _isBotAvailable = true;
         _isBotCharging= false;
-        Bot.GetComponent<Animator>().enabled = false;
+        // Bot.GetComponent<Animator>().enabled = false;
     }
     void BotCharging(){
         _isBotCharging=true;

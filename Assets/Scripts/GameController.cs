@@ -14,88 +14,86 @@ public class GameController : MonoBehaviour
     [SerializeField] Button labButton, MedicineButton, larvicideButton;
     [SerializeField] Image _currentTask;
     [SerializeField] Sprite _emptyTesttube;
+    private InventoryObject _currentInventory;
 
     void Start(){
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible=true;
-        DisplayLabInventory();
+        _currentInventory=_labInventory;
     }
 
     void Update(){
-        DisplayLabInventory();
-        DisplayLarvicidePlantInventory();
-        DisplayMedicinalPlantsInventory();
+        InventoryButtonsController();
     }
     public void OpenInventoryPanel(){
         _inventoryPanel.SetActive(true);
-        DisplayLabInventory();
-        DisplayMedicinalPlantsInventory();
-        DisplayLarvicidePlantInventory();
+        _currentInventory=_labInventory;
     }
 
-    public void DisplayLabInventory(){
-        _heading.text="Lab Inventory";
-        for (int i = 0; i < _labInventory.Container.Count; i++)
-        {
-            for (int j = 0; j < _itemAmountText.Length; j++)
-            {
-                _itemAmountText[0].text = _labInventory.Container[0].amount.ToString();
-                _itemAmountText[1].text = _labInventory.Container[1].amount.ToString();
-            } 
-            
-            for (int k = 0; k < _itemImages.Length; k++)
-            {
-               _itemImages[0].sprite =_labInventory.Container[0].sprite;
-               _itemImages[1].sprite =_labInventory.Container[1].sprite;
-            }
-        }
-        //labButton.interactable=false;
+    public void DisplayLabInventory()
+    {
+        _heading.text = "Lab Inventory";
+        ResetValues();
+        _currentInventory=_labInventory;
     }
-    public void DisplayMedicinalPlantsInventory(){
-         _heading.text="Medicinal Plants Inventory";
-        for (int i = 0; i < _medicinalPlantsInventory.Container.Count; i++)
-        {
-            for (int j = 0; j < _itemAmountText.Length; j++)
-            {
-                _itemAmountText[0].text = _medicinalPlantsInventory.Container[0].amount.ToString();
-                _itemAmountText[1].text = _medicinalPlantsInventory.Container[1].amount.ToString();
-                _itemAmountText[2].text = _medicinalPlantsInventory.Container[2].amount.ToString();
-            } 
-            
-            for (int k = 0; k < _itemImages.Length; k++)
-            {
-                _itemImages[0].sprite =_medicinalPlantsInventory.Container[0].sprite;
-                _itemImages[1].sprite = _medicinalPlantsInventory.Container[1].sprite;
-                _itemImages[2].sprite = _medicinalPlantsInventory.Container[2].sprite;
-            }
-        }
-        //MedicineButton.interactable = false;
+
+    public void DisplayMedicinalPlantsInventory()
+    {
+        _heading.text = "Medicinal Plants Inventory";
+        ResetValues();
+        _currentInventory=_medicinalPlantsInventory;
     }
-    public void DisplayLarvicidePlantInventory(){
-         _heading.text="Larvicide Plants Inventory";
-        for (int i = 0; i < _larvicidePlantInventory.Container.Count; i++)
+
+    public void DisplayLarvicidePlantInventory()
+    {
+        _heading.text = "Larvicide Plants Inventory";
+        ResetValues();
+        _currentInventory=_larvicidePlantInventory;
+        
+    }
+
+    private void InventoryDisplayController(InventoryObject _inventory){
+        for (int i = 0; i < _inventory.Container.Count; i++)
         {
-            for (int j = 0; j < _itemAmountText.Length; j++)
-            {
-                _itemAmountText[0].text = _larvicidePlantInventory.Container[0].amount.ToString();
-                _itemAmountText[1].text = _larvicidePlantInventory.Container[1].amount.ToString();
-                _itemAmountText[2].text = _larvicidePlantInventory.Container[2].amount.ToString();
-            } 
+            _itemAmountText[i].text = _inventory.Container[i].amount.ToString();
+            _itemImages[i].sprite = _inventory.Container[i].sprite;
+        }  
+    }
+
+    private void InventoryButtonsController(){
+        if(_currentInventory == _labInventory){
+            InventoryDisplayController(_labInventory);
+        }
+        else if(_currentInventory == _medicinalPlantsInventory){
             
-            for (int k = 0; k < _itemImages.Length; k++)
-            {
-               _itemImages[0].sprite =_larvicidePlantInventory.Container[0].sprite;
-               _itemImages[1].sprite =_larvicidePlantInventory.Container[1].sprite;
-               _itemImages[2].sprite =_larvicidePlantInventory.Container[2].sprite;
-            }
+        InventoryDisplayController(_medicinalPlantsInventory);
+        }
+        else if(_currentInventory == _larvicidePlantInventory){
+            InventoryDisplayController(_larvicidePlantInventory);
+        }
+        else{
+            ResetValues();
         }
     }
+
     public void CloseInventoryPanel(){
         _inventoryPanel.SetActive(false);
         Invoke("HideCursor", 1);
     }
     void HideCursor(){
         Cursor.visible = false;
+    }
+    void ResetValues(){
+        Debug.Log("called");
+        _heading.text="0";
+        for (int k = 0; k < _itemImages.Length; k++)
+        {
+            _itemImages[k].sprite = null;
+        }
+        for (int i = 0; i < _itemImages.Length; i++)
+        {
+            _itemAmountText[i].text="";
+        }
     }
 
     //WaterAnalysis

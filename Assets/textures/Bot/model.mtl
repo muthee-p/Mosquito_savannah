@@ -1,0 +1,11 @@
+# exported by https://3dviewer.net
+newmtl AI_HomeDevice
+Kd 1 1 1
+d 1
+map_Kd AI_HomeDevice_baseColor.png
+newmtl Emit
+Kd 1 1 1
+d 1
+newmtl Material
+Kd 0.9058823529411765 0.9058823529411765 0.9058823529411765
+d 0.08990503590106179

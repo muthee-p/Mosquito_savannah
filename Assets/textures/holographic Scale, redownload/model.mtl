@@ -1,0 +1,20 @@
+# exported by https://3dviewer.net
+newmtl under
+Kd 1 1 1
+d 1
+map_Kd under_baseColor.png
+newmtl additional
+Kd 0.8705882352941177 0.8705882352941177 0.8705882352941177
+d 1
+newmtl main
+Kd 0.10588235294117647 0.10588235294117647 0.10588235294117647
+d 1
+newmtl neon
+Kd 0 0 0
+d 0.8640026331508819
+newmtl numbers_neon
+Kd 0 0 0
+d 1
+newmtl neon_light
+Kd 0 0 0
+d 0.14476234594238763

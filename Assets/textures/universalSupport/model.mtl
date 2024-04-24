@@ -1,0 +1,12 @@
+# exported by https://3dviewer.net
+newmtl Material
+Kd 1 1 1
+d 1
+map_Kd Material_baseColor.jpeg
+newmtl Handle
+Kd 1 1 1
+d 1
+map_Kd Handle_baseColor.jpeg
+newmtl Material.002
+Kd 0.9058823529411765 0.9058823529411765 0.9058823529411765
+d 1
