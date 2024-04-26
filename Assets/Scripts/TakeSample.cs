@@ -18,7 +18,7 @@ public class TakeSample : MonoBehaviour
         }
     }
     private void HidePanel(){
-        _sampleAmount=1;
+        _sampleAmount++;
         _takeSample.SetActive(false);
         gameObject.GetComponent<BoxCollider>().enabled=false;
     }

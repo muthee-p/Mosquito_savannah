@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _heading;
     [SerializeField] Button labButton, MedicineButton, larvicideButton;
     [SerializeField] Image _currentTask;
-    [SerializeField] Sprite _emptyTesttube;
+    [SerializeField] Sprite _emptyTesttube, _emptySprite;
     private InventoryObject _currentInventory;
 
     void Start(){
@@ -91,7 +91,7 @@ public class GameController : MonoBehaviour
         _heading.text="0";
         for (int k = 0; k < _itemImages.Length; k++)
         {
-            _itemImages[k].sprite = null;
+            _itemImages[k].sprite = _emptySprite;
         }
         for (int i = 0; i < _itemImages.Length; i++)
         {

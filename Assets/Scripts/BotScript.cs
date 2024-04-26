@@ -66,7 +66,6 @@ public class BotScript : MonoBehaviour
     void BotBack(){
         _isBotAvailable = true;
         _isBotCharging= false;
-        // Bot.GetComponent<Animator>().enabled = false;
     }
     void BotCharging(){
         _isBotCharging=true;

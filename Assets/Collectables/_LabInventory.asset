@@ -12,4 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cadef2edf704f2a47b602eae89563c09, type: 3}
   m_Name: _LabInventory
   m_EditorClassIdentifier: 
-  Container: []
+  Container:
+  - item: {fileID: 11400000, guid: c28d9558b02ffcb42b9d03c6b277b643, type: 2}
+    amount: 2
+    sprite: {fileID: 21300000, guid: 2d482ee19a772cf4c8abd7e7fb49191f, type: 3}
+  - item: {fileID: 11400000, guid: 74d90ff6b78718142835c91c03bd23c5, type: 2}
+    amount: 1
+    sprite: {fileID: 21300000, guid: 3b730d4b1341a59439b22b33c811bd1a, type: 3}
+  - item: {fileID: 11400000, guid: d6d0c91edebbc9a45ab87738d5af2ddf, type: 2}
+    amount: 1
+    sprite: {fileID: 21300000, guid: e6aac4cba3a8dfa4996f3938980e8dde, type: 3}
+  - item: {fileID: 11400000, guid: 781a0d859f001ae42b5c1f8c0e90a570, type: 2}
+    amount: 1
+    sprite: {fileID: 21300000, guid: cf83caef851fbff41b1239baf7856dc1, type: 3}
+  - item: {fileID: 11400000, guid: 239a87c9dd954114d85e3a34895a59a0, type: 2}
+    amount: 1
+    sprite: {fileID: 21300000, guid: 5db1774c49875b148985ea5675e68573, type: 3}
