@@ -16,4 +16,4 @@ MonoBehaviour:
   type: 0
   description: 
   sprite: {fileID: 21300000, guid: 3b730d4b1341a59439b22b33c811bd1a, type: 3}
-  LabProcessingTime: 0.01
+  LabProcessingTime: 0.001
