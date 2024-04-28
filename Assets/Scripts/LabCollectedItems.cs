@@ -9,7 +9,7 @@ public class LabCollectedItems : MonoBehaviour
      [SerializeField] private AnimationClip clip;
      [SerializeField] private GameObject droppingPanel, reducedLabProcessingPanel;
      [SerializeField] private TextMeshProUGUI reducedTimeText, droppedItemsText;
-    private float labprocessingTime;
+    public float labprocessingTime;
     private float lampTime, scaleTime, microscpeTime, roundbottom2Time, roundbottom3Time;
     private int droppedItems;
     private AudioSource successSound;
@@ -17,6 +17,15 @@ public class LabCollectedItems : MonoBehaviour
 
     void Start(){
         successSound= GameObject.Find("successSound").GetComponent<AudioSource>();
+    }
+
+    void Update(){
+         if(labInventory.Container.Count==0){
+            gameObject.GetComponent<BoxCollider>().enabled=false;
+        }
+        else{
+            gameObject.GetComponent<BoxCollider>().enabled=true;
+        }
     }
   
      private void OnTriggerEnter(Collider other)
@@ -28,7 +37,7 @@ public class LabCollectedItems : MonoBehaviour
             CalculateLabProcessingTime();
 
             Invoke("HideDropPanel", 1.5f);
-            Invoke("HideLabProcessingPanel", 1.5f);
+            Invoke("HideLabProcessingPanel", 5f);
         }
     }
 
@@ -36,7 +45,7 @@ public class LabCollectedItems : MonoBehaviour
     for (int i = 0; i < labInventory.Container.Count; i++)
     {
         droppedItems += labInventory.Container[i].amount;
-        if (lamp && labInventory.Container[i].amount > 0)
+        if (labInventory.Container[i].item == lamp && labInventory.Container[i].amount > 0)
         {    
             lampTime = lamp.LabProcessingTime * labInventory.Container[i].amount;      
             if (!_lamp.activeSelf)
@@ -88,7 +97,7 @@ void HideDropPanel(){
     labInventory.Container.Clear();
     reducedLabProcessingPanel.SetActive(true);
     successSound.Play();
-    float reducedtime = (1/clip.frameRate)/60;
+    float reducedtime = 1/clip.frameRate*1000/60;
     reducedTimeText.text = "Lab Processing Time is now : " + reducedtime;
     droppedItemsText.text = "You dropped : " + droppedItems + "items";
 }

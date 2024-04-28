@@ -8,6 +8,12 @@ TagManager:
   - water_source_1
   - Bot
   - successSound
+  - createMedicineDevice
+  - water_source_2
+  - water_source_3
+  - water_source_4
+  - water_source_5
+  - water_source_6
   layers:
   - Default
   - TransparentFX

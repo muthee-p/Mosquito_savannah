@@ -4,20 +4,58 @@ using UnityEngine.UI;
 
 public class CreateMedicineScript: MonoBehaviour {
   
-   [SerializeField] private GameObject _createMedicinePanel;
+   [SerializeField] private GameObject _createMedicinePanel, labProgressBarPanel,  medicinereadyPanel;
    [SerializeField] private InventoryObject _medicinalPlantsInventory;
    [SerializeField] private TextMeshProUGUI _lavenderText, _redheadText, _glowingText, _orangeflowerText, _medicineAmountText;
    [SerializeField] private  CurePlantObject lavenderPlant, redheadPlant, glowingPlant, orangeFlowerPlant;
-   [SerializeField] private Button _createMedicineButton, _sendMedicineButton;
-    private int _lavenderAmount, _redheadAmount, _glowingAmount, _orangeflowerAmount, _medicineAmount;
+   [SerializeField] private Button _createMedicineButton, _pickMedicineButton;
+   [SerializeField] private TextMeshProUGUI _createMedicineButtonText, _pickMedicineButtonText;
+   [SerializeField] private Image currentTask;
+   [SerializeField] private Sprite medicineSprite;
+   [SerializeField] private GameObject[] anylysisDevices;
+    [SerializeField] private AnimationClip clip;
+    private AudioSource successSound, collectSound;
+    private int _lavenderAmount, _redheadAmount, _glowingAmount, _orangeflowerAmount;
+    public int _medicineAmount, results;
+    private float labProcessingTime;
 
+    void Start(){
+        successSound= GameObject.Find("successSound").GetComponent<AudioSource>();
+         collectSound = GameObject.Find("collectSound").GetComponent<AudioSource>();
+         labProcessingTime= clip.frameRate *400;
+        //labProcessingTime = GameObject.Find("DropItems").GetComponent<LabCollectedItems>().labprocessingTime;
+        for (int i = 0; i < anylysisDevices.Length; i++)
+        {
+             results = anylysisDevices[i].GetComponent<WaterSourceAnalysis>()._resultsAmount;
+        }
+       
+    }
+    void Update () {
+        if (Input.GetKeyDown(KeyCode.M))
+            {
+                 CreateMedicine();
+            }
+         if (Input.GetKeyDown(KeyCode.P))
+            {
+                PickMedicine();
+            }
+        
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             _createMedicinePanel.SetActive(true);
             CheckPlantAmount();
-            ActivateCreateMedicineButton();
+            if(results<=1){
+                ActivateCreateMedicineButton();
+                _createMedicineButtonText.text="Create Medicine (M)";
+            }
+            else{
+                _createMedicineButtonText.text="Results = 0";
+                _pickMedicineButtonText.text = "No medicine";
+            }
+            
         }
     }
     private void OnTriggerExit(Collider other)
@@ -58,11 +96,28 @@ public class CreateMedicineScript: MonoBehaviour {
         
     }
     public void CreateMedicine(){
+       collectSound.Play();
+        labProgressBarPanel.SetActive(true);
+        _pickMedicineButtonText.text = "Processing...";
+        Invoke("MedicineReady", labProcessingTime);
+    }
+
+    public void MedicineReady(){ 
         _medicineAmount++;
         _medicineAmountText.text = "Medicine Amount = "+_medicineAmount;
-        
-        if(_medicineAmount<= 1){
-            _sendMedicineButton.interactable=true;
-        }
+        successSound.Play();
+        medicinereadyPanel.SetActive(true);
+        _pickMedicineButton.interactable=true;
+        _pickMedicineButtonText.text = "Pick (P)";
+        Invoke("HideMedicineReadyPane",1.5f);
+    }
+    public void PickMedicine(){
+        collectSound.Play();
+        _createMedicinePanel.SetActive(false);
+        currentTask.sprite = medicineSprite;
+    }
+    private void HideMedicineReadyPane(){
+         medicinereadyPanel.SetActive(false);
+         labProgressBarPanel.SetActive(false);
     }
 }

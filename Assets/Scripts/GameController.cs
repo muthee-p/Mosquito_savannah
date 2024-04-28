@@ -13,17 +13,36 @@ public class GameController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _heading;
     [SerializeField] Button labButton, MedicineButton, larvicideButton;
     [SerializeField] Image _currentTask;
-    [SerializeField] Sprite _emptyTesttube, _emptySprite;
+    [SerializeField] Sprite _emptySprite;
     private InventoryObject _currentInventory;
 
     void Start(){
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible=true;
         _currentInventory=_labInventory;
+        labButton.interactable= false;
     }
 
     void Update(){
         InventoryButtonsController();
+        if (Input.GetKeyDown(KeyCode.I))
+            {
+                OpenInventoryPanel();
+            }
+        if (Input.GetKeyDown(KeyCode.L))
+            {
+                DisplayLabInventory();
+            }
+        if (Input.GetKeyDown(KeyCode.N))
+            {
+                 DisplayMedicinalPlantsInventory();
+            }
+        if (Input.GetKeyDown(KeyCode.K))
+            {
+                DisplayLarvicidePlantInventory();
+            }
+        if (Input.GetKeyDown(KeyCode.X))
+            {
+                 CloseInventoryPanel();
+            }
     }
     public void OpenInventoryPanel(){
         _inventoryPanel.SetActive(true);
@@ -32,16 +51,15 @@ public class GameController : MonoBehaviour
 
     public void DisplayLabInventory()
     {
-       
         ResetValues();
         _currentInventory=_labInventory;
     }
 
     public void DisplayMedicinalPlantsInventory()
     {
-       
         ResetValues();
         _currentInventory=_medicinalPlantsInventory;
+        labButton.interactable= true;
     }
 
     public void DisplayLarvicidePlantInventory()
@@ -49,7 +67,7 @@ public class GameController : MonoBehaviour
         
         ResetValues();
         _currentInventory=_larvicidePlantInventory;
-        
+        labButton.interactable= true;
     }
 
     private void InventoryDisplayController(InventoryObject _inventory){
@@ -81,13 +99,10 @@ public class GameController : MonoBehaviour
 
     public void CloseInventoryPanel(){
         _inventoryPanel.SetActive(false);
-        Invoke("HideCursor", 1);
     }
-    void HideCursor(){
-        Cursor.visible = false;
-    }
+   
     void ResetValues(){
-        Debug.Log("called");
+       
         _heading.text="0";
         for (int k = 0; k < _itemImages.Length; k++)
         {
@@ -99,19 +114,5 @@ public class GameController : MonoBehaviour
         }
     }
 
-    //WaterAnalysis
-    public void ActivateTakeSample(){
-        GameObject.FindGameObjectWithTag("water_source_1").GetComponent<BoxCollider>().enabled=true;
-        _currentTask.sprite =_emptyTesttube;
-         _waterSourceAnalysisPanel.SetActive(false);
-    }
-    public void OpenResultspane(){
-        _resultsPanel.SetActive(true);
-    }
-    public void HideWaterSourceAnalysisPanel(){
-        _waterSourceAnalysisPanel.SetActive(false);
-    }
-    public void TakeTest(){
-        //_currentTask.sprite = none;
-    }
+    
 }
