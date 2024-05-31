@@ -16,11 +16,13 @@ public class BotScript : MonoBehaviour
     private int _medicineAmount;
     public int _deliveryTime = 30;
     public float _malariaReductionAmount = 0.1f;
+    private string  _medicineAmountText;
 
     void Start(){
         Bot = GameObject.FindGameObjectWithTag("Bot");
         successSound= GameObject.Find("successSound").GetComponent<AudioSource>();
         _medicineAmount = GameObject.FindGameObjectWithTag("createMedicineDevice").GetComponent<CreateMedicineScript>()._medicineAmount;
+         _medicineAmountText=GameObject.FindGameObjectWithTag("createMedicineDevice").GetComponent<CreateMedicineScript>()._medicineAmountText.text;
     }
 
      private void OnTriggerEnter(Collider other)
@@ -49,6 +51,9 @@ public class BotScript : MonoBehaviour
             }
         }
     }
+    void Update(){
+        _medicineAmountText="Medicine Amount = " + _medicineAmount;
+    }
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -69,6 +74,7 @@ public class BotScript : MonoBehaviour
     }
 
     private void ReduceMalaria(){
+        _medicineAmount--;
        clip.frameRate += _malariaReductionAmount;
     }
     void BotBack(){

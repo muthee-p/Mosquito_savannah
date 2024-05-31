@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
 
-    [SerializeField] private GameObject _inventoryPanel, _waterSourceAnalysisPanel, _resultsPanel;
+    [SerializeField] private GameObject _inventoryPanel, _waterSourceAnalysisPanel, _resultsPanel, _instructionsPanel;
     [SerializeField] private InventoryObject _labInventory, _medicinalPlantsInventory, _larvicidePlantInventory;
     [SerializeField] private Image[] _itemImages;
     [SerializeField] private TextMeshProUGUI[] _itemAmountText;
@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     [SerializeField] Image _currentTask;
     [SerializeField] Sprite _emptySprite;
     private InventoryObject _currentInventory;
+   
 
     void Start(){
         _currentInventory=_labInventory;
@@ -42,6 +43,14 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
             {
                  CloseInventoryPanel();
+            }
+        if (Input.GetKeyDown(KeyCode.H))
+            {
+                 OpenInstructions();
+            }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Exit();
             }
     }
     public void OpenInventoryPanel(){
@@ -113,6 +122,11 @@ public class GameController : MonoBehaviour
             _itemAmountText[i].text="";
         }
     }
-
+public void OpenInstructions(){
+     _instructionsPanel.SetActive(!_instructionsPanel.activeSelf);
+}
+public void Exit(){
+    Application.Quit();
+}
     
 }

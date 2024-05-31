@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TakeSample : MonoBehaviour
+public class TakeSampleScript : MonoBehaviour
 {
     [SerializeField] private GameObject _takeSample, _disinfectPanel;
     [SerializeField] Image _currentTask;
@@ -9,10 +9,22 @@ public class TakeSample : MonoBehaviour
     [SerializeField] GameObject analysisDevice;
     private Image currentTask;
     private Sprite larvicideSprite;
-    public int _sampleAmount;
+    private Button TakeSampleButton;
+    public int _sampleAmount, _larvicideAmount;
+    private string  _sampleAmountText, _larvicideAmountText;
+
     void Start(){
         currentTask = analysisDevice.GetComponent<WaterSourceAnalysis>().currentTask;
         larvicideSprite = analysisDevice.GetComponent<WaterSourceAnalysis>().larvicideSprite;
+        _larvicideAmount = analysisDevice.GetComponent<WaterSourceAnalysis>()._larvicideAmount;
+        _sampleAmountText= analysisDevice.GetComponent<WaterSourceAnalysis>()._sampleAmountText.text;
+        _larvicideAmountText= analysisDevice.GetComponent<WaterSourceAnalysis>()._larvicideAmountText.text;
+        TakeSampleButton= analysisDevice.GetComponent<WaterSourceAnalysis>().TakeSampleButton;
+        
+    }
+    void Update(){
+        _sampleAmountText = "Sample =" + _sampleAmount;
+        _larvicideAmountText= "Larvicide = " + _larvicideAmount;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -24,6 +36,9 @@ public class TakeSample : MonoBehaviour
             }else{
                 _takeSample.SetActive(true);
                 _currentTask.sprite = _fullTestTube;
+                _sampleAmount++;
+               
+                TakeSampleButton.interactable=false;
             }
             
             Invoke("HidePanel", 1.5f);
@@ -32,9 +47,11 @@ public class TakeSample : MonoBehaviour
     private void HidePanel(){
         if(_disinfectPanel.activeSelf){
             _disinfectPanel.SetActive(false);
+            _larvicideAmount--;
+            TakeSampleButton.interactable=true;
         }
         else{
-            _sampleAmount++;
+            
             _takeSample.SetActive(false);
         }
         
@@ -42,5 +59,10 @@ public class TakeSample : MonoBehaviour
     }
      private void UpdateLarvicideApplication(){
         analysisDevice.GetComponent<WaterSourceAnalysis>().UpdateLarvicideApplication();
+        analysisDevice.GetComponent<WaterSourceAnalysis>().functionCalled=true;
      }
+      public int GetSampleAmount()
+    {
+        return _sampleAmount;
+    }
 }

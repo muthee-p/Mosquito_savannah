@@ -6,7 +6,8 @@ public class CreateMedicineScript: MonoBehaviour {
   
    [SerializeField] private GameObject _createMedicinePanel, labProgressBarPanel,  medicinereadyPanel;
    [SerializeField] private InventoryObject _medicinalPlantsInventory;
-   [SerializeField] private TextMeshProUGUI _lavenderText, _redheadText, _glowingText, _orangeflowerText, _medicineAmountText;
+   [SerializeField] private TextMeshProUGUI _lavenderText, _redheadText, _glowingText, _orangeflowerText;
+   [SerializeField] public TextMeshProUGUI _medicineAmountText;
    [SerializeField] private  CurePlantObject lavenderPlant, redheadPlant, glowingPlant, orangeFlowerPlant;
    [SerializeField] private Button _createMedicineButton, _pickMedicineButton;
    [SerializeField] private TextMeshProUGUI _createMedicineButtonText, _pickMedicineButtonText;
@@ -39,7 +40,7 @@ public class CreateMedicineScript: MonoBehaviour {
             {
                 PickMedicine();
             }
-        
+        UpdateText();
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -47,14 +48,7 @@ public class CreateMedicineScript: MonoBehaviour {
         {
             _createMedicinePanel.SetActive(true);
             CheckPlantAmount();
-            if(results<=1){
-                ActivateCreateMedicineButton();
-                _createMedicineButtonText.text="Create Medicine (M)";
-            }
-            else{
-                _createMedicineButtonText.text="Results = 0";
-                _pickMedicineButtonText.text = "No medicine";
-            }
+           UpdateText();
             
         }
     }
@@ -119,5 +113,16 @@ public class CreateMedicineScript: MonoBehaviour {
     private void HideMedicineReadyPane(){
          medicinereadyPanel.SetActive(false);
          labProgressBarPanel.SetActive(false);
+    }
+
+    void UpdateText(){
+         if(results<=1){
+                ActivateCreateMedicineButton();
+                _createMedicineButtonText.text="Create Medicine (M)";
+            }
+            else{
+                _createMedicineButtonText.text="Results = 0";
+                _pickMedicineButtonText.text = "No medicine";
+            }
     }
 }
