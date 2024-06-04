@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6133650397252458580}
   - component: {fileID: 6894699220082649250}
   - component: {fileID: 2006063086957143209}
+  - component: {fileID: 7234756703979075359}
   m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
@@ -4830,6 +4831,22 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &7234756703979075359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694893417887760462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8c0e9c9a3e096347bee0d0d035772f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particles: {fileID: 6894699220082649250}
+  lineOfSight: 21
+  inRange: 0
+  frequency: 0
 --- !u!1001 &7088335984560158838
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4880,7 +4897,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b3f10689d7d49534f97837cab55f5716, type: 3}
       propertyPath: m_Name
-      value: Roses Orange
+      value: orangeFlower
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4918,6 +4935,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75d04b7260a1fac40b407d9b9b3d2413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scriptHolder: {fileID: 4437437873713404056, guid: 6c45fbf9963dc034c9925b48042b8e2c, type: 3}
   _inventory: {fileID: 11400000, guid: 1bb8d9f0f7078f249b64a569cc291f8f, type: 2}
   item: {fileID: 11400000, guid: 627021f34a5730e448907c721e2c33c6, type: 2}
 --- !u!65 &704532097877104978

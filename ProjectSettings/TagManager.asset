@@ -14,6 +14,8 @@ TagManager:
   - water_source_4
   - water_source_5
   - water_source_6
+  - WaterSource
+  - bgMusic
   layers:
   - Default
   - TransparentFX

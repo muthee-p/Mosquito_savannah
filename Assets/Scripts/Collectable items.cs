@@ -5,8 +5,11 @@ using Cinemachine;
 
 public class Collectableitems : MonoBehaviour
 {
+    [SerializeField] private GameObject scriptHolder;
+    private CollectablesSpawner collectablesSpawner;
     public InventoryObject _inventory;
     private AudioSource collectSound;
+
 
     public ItemObject item;
 
@@ -23,22 +26,28 @@ public class Collectableitems : MonoBehaviour
     void Start(){
         collectSound = GameObject.Find("collectSound").GetComponent<AudioSource>();
         GameObject.Find("VCamera").GetComponent<CameraShake>().StopShake();
+        collectablesSpawner = scriptHolder.GetComponent<CollectablesSpawner>();
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             _inventory.AddItem(item,1,item.sprite);
+            collectablesSpawner.RespawnPrefab(gameObject);
             collectSound.Play();
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            Invoke("DestroyPrefab", 3);
              GameObject.Find("VCamera").GetComponent<CameraShake>().ShakeCamera();
-            if(timer >0){
-                timer -=Time.deltaTime;
-                if(timer <=0){
-                    GameObject.Find("VCamera").GetComponent<CameraShake>().StopShake();
-                }
-            }
+            Invoke("StopShake", 1);
         }
+    }
+    private void StopShake(){
+        GameObject.Find("VCamera").GetComponent<CameraShake>().StopShake();
+
+    }
+    private void DestroyPrefab()
+    {
+        Destroy(gameObject);
     }
 }
 

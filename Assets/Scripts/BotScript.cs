@@ -9,7 +9,7 @@ public class BotScript : MonoBehaviour
     [SerializeField] private AnimationClip clip;
     [SerializeField] private TextMeshProUGUI _availabilityText;
     private GameObject Bot;
-    private AudioSource successSound;
+    private AudioSource sendBotSound;
     private bool _isBotAvailable=true;
     private bool _isBotCharging =false;
     private bool _isPanelUp=false;
@@ -20,7 +20,8 @@ public class BotScript : MonoBehaviour
 
     void Start(){
         Bot = GameObject.FindGameObjectWithTag("Bot");
-        successSound= GameObject.Find("successSound").GetComponent<AudioSource>();
+        sendBotSound= GameObject.Find("sendBotSound").GetComponent<AudioSource>();
+        //successSound= GameObject.Find("successSound").GetComponent<AudioSource>();
         _medicineAmount = GameObject.FindGameObjectWithTag("createMedicineDevice").GetComponent<CreateMedicineScript>()._medicineAmount;
          _medicineAmountText=GameObject.FindGameObjectWithTag("createMedicineDevice").GetComponent<CreateMedicineScript>()._medicineAmountText.text;
     }
@@ -69,12 +70,13 @@ public class BotScript : MonoBehaviour
         _isBotAvailable=false;
         _sendingPanel.SetActive(false);
         Bot.GetComponent<Animator>().SetTrigger("bot");
-        successSound.Play();
+        sendBotSound.Play();
         portal.SetActive(true);
     }
 
     private void ReduceMalaria(){
         _medicineAmount--;
+        //successSound.Play();
        clip.frameRate += _malariaReductionAmount;
     }
     void BotBack(){

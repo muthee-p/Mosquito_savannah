@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
 
-    [SerializeField] private GameObject _inventoryPanel, _waterSourceAnalysisPanel, _resultsPanel, _instructionsPanel;
+    [SerializeField] private GameObject _inventoryPanel, _waterSourceAnalysisPanel, _resultsPanel, _instructionsPanel, loadingScreen;
     [SerializeField] private InventoryObject _labInventory, _medicinalPlantsInventory, _larvicidePlantInventory;
     [SerializeField] private Image[] _itemImages;
     [SerializeField] private TextMeshProUGUI[] _itemAmountText;
@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour
     void Start(){
         _currentInventory=_labInventory;
         labButton.interactable= false;
+        Invoke("HideLoadingScreen", 5);
     }
 
     void Update(){
@@ -128,5 +129,9 @@ public void OpenInstructions(){
 public void Exit(){
     Application.Quit();
 }
+    void HideLoadingScreen()
+    {
+        loadingScreen.SetActive(false);
+    }
     
 }

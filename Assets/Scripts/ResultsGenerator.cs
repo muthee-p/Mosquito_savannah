@@ -4,61 +4,58 @@ using UnityEngine.UI;
 
 public class ResultsGenerator : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _larvaePercText, _algaePercText, _snailsPercText, _insectPercText;
-    [SerializeField] private TextMeshProUGUI _resultStrength;
-    public int plainPlantRecommendedAmount, snakePlantRecommendedAmount, fuzzyPlantRecommendedAmount;
-    private int plainPlantAmount, snakePlantAmount, fuzzyPlantAmount;
-    private int _larvaePercAmt, _algaePercAmt, _snailsPercAmt, _insectPercAmt;
-
-    void Start()
+    public void GenerateResults(TextMeshProUGUI _larvaePercText, TextMeshProUGUI _algaePercText,
+        TextMeshProUGUI _snailsPercText, TextMeshProUGUI _insectPercText,
+        TextMeshProUGUI _resultStrength, ref int plainPlantRecommendedAmount,
+        ref int snakePlantRecommendedAmount, ref int fuzzyPlantRecommendedAmount,
+        ref int _larvaePercAmt, ref int _algaePercAmt, ref int _snailsPercAmt, ref int _insectPercAmt, ref bool resultsGenerated)
     {
+        resultsGenerated = true;
+        int leftAmount = 100;
 
-        int leftamount= _larvaePercAmt + _algaePercAmt + _snailsPercAmt;
-        _larvaePercAmt= Random.Range(1, 76); 
-        _algaePercAmt = Random.Range(1, 101 - _larvaePercAmt); 
-         _snailsPercAmt= Random.Range(1, 101 - _larvaePercAmt - _algaePercAmt); 
-         if(leftamount<0){
-            leftamount=0;
-         }
-        _insectPercAmt = Random.Range(1, leftamount) ;
+        _larvaePercAmt = Random.Range(1, 76);
+        leftAmount -= _larvaePercAmt;
 
-       _larvaePercText.text = _larvaePercAmt + "%";
-       _algaePercText.text= _algaePercAmt + "%";
-       _snailsPercText.text=_snailsPercAmt + "%";
-       _insectPercText.text =_insectPercAmt + "%";
+        _algaePercAmt = Random.Range(1, Mathf.Min(76, leftAmount + 1));
+        leftAmount -= _algaePercAmt;
 
+        _snailsPercAmt = Random.Range(1, Mathf.Min(76, leftAmount + 1));
+        leftAmount -= _snailsPercAmt;
 
-        float average = (_larvaePercAmt + _algaePercAmt + _snailsPercAmt + _insectPercAmt) /4f;
+        _insectPercAmt = leftAmount;
+
+        _larvaePercText.text = _larvaePercAmt + "%";
+        _algaePercText.text = _algaePercAmt + "%";
+        _snailsPercText.text = _snailsPercAmt + "%";
+        _insectPercText.text = _insectPercAmt + "%";
+
+        //float average = (_larvaePercAmt + _algaePercAmt + _snailsPercAmt + _insectPercAmt) / 4f;
 
         // Update text based on the average
-        if (average >= 0 && average <= 33)
+        if (_larvaePercAmt < _algaePercAmt || _larvaePercAmt < _snailsPercAmt  || _larvaePercAmt < _insectPercAmt)
         {
             _resultStrength.text = "Low";
             _resultStrength.color = Color.green;
-            plainPlantAmount =1;
-            snakePlantAmount =4;
-            fuzzyPlantAmount =3;
+            plainPlantRecommendedAmount = 1;
+            snakePlantRecommendedAmount = 4;
+            fuzzyPlantRecommendedAmount = 3;
         }
-        else if (average >= 34 && average <= 66)
+        else if (_larvaePercAmt > _algaePercAmt && _larvaePercAmt < _snailsPercAmt || _larvaePercAmt < _insectPercAmt)
         {
             _resultStrength.text = "Neutral";
             _resultStrength.color = Color.yellow;
-            plainPlantAmount =2;
-            snakePlantAmount =3;
-            fuzzyPlantAmount =3;
+            plainPlantRecommendedAmount = 2;
+            snakePlantRecommendedAmount = 3;
+            fuzzyPlantRecommendedAmount = 3;
         }
-        else if (average >= 67 && average <= 100)
+        else if (_larvaePercAmt > _algaePercAmt && _larvaePercAmt > _snailsPercAmt && _larvaePercAmt > _insectPercAmt)
         {
             _resultStrength.text = "High";
-            _resultStrength.color= Color.red;
-            plainPlantAmount =4;
-            snakePlantAmount =3;
-            fuzzyPlantAmount =2;
+            _resultStrength.color = Color.red;
+            plainPlantRecommendedAmount = 4;
+            snakePlantRecommendedAmount = 3;
+            fuzzyPlantRecommendedAmount = 2;
         }
-    }
-    void Update(){
-        plainPlantRecommendedAmount =plainPlantAmount;
-        snakePlantRecommendedAmount =snakePlantAmount;
-        fuzzyPlantRecommendedAmount =fuzzyPlantAmount;
+
     }
 }

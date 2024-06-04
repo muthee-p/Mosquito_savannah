@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CollectablesSpawner : MonoBehaviour
 {
-    public GameObject[] prefabs; // Array of prefabs to spawn
-    public int[] minCounts; // Array of minimum counts for each prefab
-    public int[] maxCounts; // Array of maximum counts for each prefab
+    public GameObject[] prefabs; 
+    public int[] minCounts; 
+    public int[] maxCounts; 
 
     private List<GameObject> spawnedPrefabs = new List<GameObject>();
 
@@ -32,28 +32,19 @@ public class CollectablesSpawner : MonoBehaviour
 
     Vector3 GetRandomPositionOnTerrain()
     {
-        // Replace this with your actual method of getting a random position on your terrain
-        // For example, you can use Random.Range to get random x and z coordinates, and then use Terrain.SampleHeight to get the y coordinate
-        float randomX = Random.Range(95f, 312f);
-        float randomZ = Random.Range(53f, 288f);
-        float y = Random.Range(18f, 18.3f);
+        float randomX = Random.Range(60f, 180f);
+        float randomZ = Random.Range(160f, 400f);
+        float y = Random.Range(18.1f, 18.4f);
         return new Vector3(randomX, y, randomZ);
     }
 
-    // Call this method whenever a prefab is destroyed and you want to spawn another one
-    void RespawnPrefab(GameObject prefab)
+   public void RespawnPrefab(GameObject prefab)
     {
-        spawnedPrefabs.Remove(prefab);
-
-        for (int i = 0; i < prefabs.Length; i++)
-        {
-            if (prefabs[i] == prefab)
-            {
-                Vector3 randomPosition = GetRandomPositionOnTerrain();
-                GameObject prefabInstance = Instantiate(prefab, randomPosition, Quaternion.identity);
-                spawnedPrefabs.Add(prefabInstance);
-                break;
-            }
-        }
+        Vector3 randomPosition = GetRandomPositionOnTerrain();
+        GameObject prefabInstance = Instantiate(prefab, randomPosition, Quaternion.identity);
+        Debug.Log("respawned", prefabInstance);
+        spawnedPrefabs.Add(prefabInstance);
+               
+        
     }
 }

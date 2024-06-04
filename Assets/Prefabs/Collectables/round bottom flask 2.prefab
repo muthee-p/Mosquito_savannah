@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1113409310588720640}
   - component: {fileID: 5007864805515140489}
   - component: {fileID: 7851991612148075405}
+  - component: {fileID: 2465645587741165228}
   m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
@@ -4830,6 +4831,22 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &2465645587741165228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3292382728031325068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8c0e9c9a3e096347bee0d0d035772f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particles: {fileID: 5007864805515140489}
+  lineOfSight: 21
+  inRange: 0
+  frequency: 0
 --- !u!1 &4382796210837067571
 GameObject:
   m_ObjectHideFlags: 0
@@ -4949,5 +4966,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75d04b7260a1fac40b407d9b9b3d2413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scriptHolder: {fileID: 4437437873713404056, guid: 6c45fbf9963dc034c9925b48042b8e2c, type: 3}
   _inventory: {fileID: 11400000, guid: 135aa52d810441747aefdfdf11b040a1, type: 2}
   item: {fileID: 11400000, guid: d6d0c91edebbc9a45ab87738d5af2ddf, type: 2}
