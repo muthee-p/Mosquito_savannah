@@ -28,8 +28,9 @@ public class WaterSourceAnalysisOne : MonoBehaviour
     private int plainPlantRecommendedAmount, snakePlantRecommendedAmount, fuzzyPlantRecommendedAmount;
     private int _larvaePercAmt, _algaePercAmt, _snailsPercAmt, _insectPercAmt;
     public bool functionCalled = false;
-    public bool canMakeLarvicide = false;
     private bool resultsGenerated = false;
+    bool isDisinfecting = false;
+    bool larvicideCreated = false;
 
     void Start()
     {
@@ -38,30 +39,23 @@ public class WaterSourceAnalysisOne : MonoBehaviour
         waterPlaneCollider = waterSourcePlane.GetComponent<BoxCollider>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         disinfectedStatus.text = "Untested";
-        plainPlantRecommendedAmount = 0;
-        snakePlantRecommendedAmount = 0;
-        fuzzyPlantRecommendedAmount = 0;
+        if (_resultsAmount == 0)
+        {
+            fuzzyPlantText.text = "N/A";
+            plainPlantText.text = "N/A";
+            snakePlantText.text = "N/A";
+        }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            _sampleAmountText.text = "Sample = " + _sampleAmount;
             _watersorceAnalysisPanel.SetActive(true);
-            if (_resultsAmount == 0)
-            {
-                fuzzyPlantText.text = "N/A";
-                plainPlantText.text = "N/A";
-                snakePlantText.text = "N/A";
-            }
-            waterSourceCommons.TextUpdate(_resultsAmount, fuzzyPlantText, plainPlantText,
-                             snakePlantText, disinfectedStatus, _sampleAmount, analyseSampleButton
-                             , createLarvicideButton, functionCalled, canMakeLarvicide,
-                             plainPlantRecommendedAmount, snakePlantRecommendedAmount,
-                             fuzzyPlantRecommendedAmount);
-            Debug.Log("plain " + plainPlantRecommendedAmount + "snake " + snakePlantRecommendedAmount + "Fuzzy" + fuzzyPlantRecommendedAmount);
+            UpdateUI();
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -69,64 +63,72 @@ public class WaterSourceAnalysisOne : MonoBehaviour
             _watersorceAnalysisPanel.SetActive(false);
         }
     }
+
     void Update()
     {
-        if (_watersorceAnalysisPanel.activeSelf == true)
+        if (_watersorceAnalysisPanel.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.T))
             {
-                if (_sampleAmount == 0)
+                if (_sampleAmount == 0 && _resultsAmount == 0 && _larvicideAmount == 0)
                 {
                     waterSourceCommons.TakeSample(waterSourcePlane, currentTask, _watersorceAnalysisPanel);
+                    _sampleAmountText.text = "Sample = " + _sampleAmount;
+                    parentTask.SetActive(true);
                 }
             }
+
+
             if (Input.GetKeyDown(KeyCode.R))
             {
-                if (_sampleAmount == 1 && _resultsAmount == 0)
+                if (_sampleAmount == 1 && _resultsAmount == 0 && resultsGenerated == false)
                 {
                     AnalyseSample();
                 }
             }
             if (Input.GetKeyDown(KeyCode.V))
             {
+                if (!larvicideCreated)
+                {
+                    waterSourceCommons.ClickCreateLarvicideButton(currentTask,
+                 _larvicideAmount, _larvicideAmountText, _resultsAmount, waterSourcePlane,
+                 plainPlantRecommendedAmount, snakePlantRecommendedAmount, fuzzyPlantRecommendedAmount,
+                 _resultsAmountText, isDisinfecting, fuzzyPlantText, plainPlantText, snakePlantText, larvicideCreated);
 
-                ClickCreateLarvicideButton();
+                }
             }
             if (Input.GetKeyDown(KeyCode.C))
             {
                 HideWaterSourceAnalysisPanel();
             }
-
         }
-
     }
 
     public void WaterPanel()
     {
-        if (currentTask.sprite == waterSourceCommons.larvicideSprite)
+        if (currentTask.sprite == waterSourceCommons.larvicideSprite || isDisinfecting)
         {
             _disinfectPanel.SetActive(true);
             Invoke("UpdateLarvicideApplication", 1.5f);
         }
-        else
+        else if (!isDisinfecting)
         {
             _takeSample.SetActive(true);
 
             currentTask.sprite = waterSourceCommons._fullTestTube;
-            parentTask.SetActive(true);
-            _sampleAmount++;
 
+            _sampleAmount++;
+            _sampleAmountText.text = "Sample = " + _sampleAmount;
             TakeSampleButton.interactable = false;
         }
-
         Invoke("HidePanel", 1.5f);
     }
-
 
     public void HideWaterSourceAnalysisPanel()
     {
         _watersorceAnalysisPanel.SetActive(false);
     }
+
     public void AnalyseSample()
     {
         if (_sampleAmount >= 1)
@@ -140,25 +142,17 @@ public class WaterSourceAnalysisOne : MonoBehaviour
             Invoke("AnalysisComplete", 4f);
         }
     }
+
     public void AnalysisComplete()
     {
-        waterSourceCommons.AnalysisComplete(_resultsAmount, _resultsAmountText, _sampleAmount, _sampleAmountText,
-                                 fuzzyPlantText, plainPlantText, snakePlantText, createLarvicideButton, plainPlantRecommendedAmount,
-                                snakePlantRecommendedAmount, fuzzyPlantRecommendedAmount, canMakeLarvicide);
+        waterSourceCommons.AnalysisComplete(
+            _resultsAmount, _resultsAmountText, _sampleAmount, _sampleAmountText,
+            fuzzyPlantText, plainPlantText, snakePlantText, createLarvicideButton,
+            plainPlantRecommendedAmount, snakePlantRecommendedAmount, fuzzyPlantRecommendedAmount
+        );
     }
-    public void ClickCreateLarvicideButton()
-    {
-        Debug.Log(canMakeLarvicide);
-        if (canMakeLarvicide)
-        {
-            waterSourceCommons.collectSound.Play();
-            currentTask.sprite = waterSourceCommons.larvicideSprite;
-            _larvicideAmount++;
-            _larvicideAmountText.text = "Larvicide = " + _larvicideAmount;
-            _resultsAmount--;
-            waterSourceCommons.ApplyLarvicide(waterSourcePlane);
-        }
-    }
+
+
     private void HidePanel()
     {
         if (_disinfectPanel.activeSelf)
@@ -171,16 +165,26 @@ public class WaterSourceAnalysisOne : MonoBehaviour
         {
             _takeSample.SetActive(false);
         }
-
         waterSourcePlane.GetComponent<BoxCollider>().enabled = false;
     }
+
     public void UpdateLarvicideApplication()
     {
         currentTask.sprite = waterSourceCommons.medicineSprite;
         Color imagecolor = currentTask.color;
-        imagecolor.a = 60;
+        imagecolor.a = 0.4f;
+        currentTask.color = imagecolor;
         waterSourceCommons.successSound.Play();
         functionCalled = true;
+    }
+
+    private void UpdateUI()
+    {
+        waterSourceCommons.TextUpdate(
+            _resultsAmount, fuzzyPlantText, plainPlantText, snakePlantText,
+            disinfectedStatus, _sampleAmount, analyseSampleButton, createLarvicideButton,
+            functionCalled, plainPlantRecommendedAmount, snakePlantRecommendedAmount, fuzzyPlantRecommendedAmount
+        );
     }
 }
 

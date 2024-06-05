@@ -12,4 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cadef2edf704f2a47b602eae89563c09, type: 3}
   m_Name: _LarvicidePlantInventory
   m_EditorClassIdentifier: 
-  Container: []
+  Container:
+  - item: {fileID: 11400000, guid: a23873c37c88abe4aa5908587d043994, type: 2}
+    amount: 6
+    sprite: {fileID: 21300000, guid: b4921f4d465316a4782f5a1b5446d6c2, type: 3}
+  - item: {fileID: 11400000, guid: c38a1a2d3fdb70d4285dc9f21e91e810, type: 2}
+    amount: 4
+    sprite: {fileID: 21300000, guid: d1880f7f510048b4387fabbf58bf0860, type: 3}
+  - item: {fileID: 11400000, guid: e9e43212915a8004b8c2019a3543318d, type: 2}
+    amount: 1
+    sprite: {fileID: 21300000, guid: ebad070f72c96994f9d07578eae333f4, type: 3}

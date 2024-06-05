@@ -42,7 +42,6 @@ public class CollectablesSpawner : MonoBehaviour
     {
         Vector3 randomPosition = GetRandomPositionOnTerrain();
         GameObject prefabInstance = Instantiate(prefab, randomPosition, Quaternion.identity);
-        Debug.Log("respawned", prefabInstance);
         spawnedPrefabs.Add(prefabInstance);
                
         
