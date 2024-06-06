@@ -15,22 +15,22 @@ public class HutScript : MonoBehaviour
     void Update(){
         float distanceFromPlayer = Vector2.Distance(player.position, transform.position);
         if (distanceFromPlayer < lineOfSight){
-            if (waterAnalysisDevice.name == "waterAnalysisDevice1")
+            if (waterAnalysisDevice.name == "waterAnalysisDevice")
             {
                 waterAnalysisDevice.GetComponent<WaterSourceAnalysis>().enabled = true;
             }
-            if (waterAnalysisDevice.name == "waterAnalysisDevice2")
+            if (waterAnalysisDevice.name == "waterAnalysisDevice1")
             {
                 waterAnalysisDevice.GetComponent<WaterSourceAnalysisOne>().enabled = true;
             }
         }
        
         else if (distanceFromPlayer > lineOfSight){
-            if (waterAnalysisDevice.name == "waterAnalysisDevice1")
+            if (waterAnalysisDevice.name == "waterAnalysisDevice")
             {
                 waterAnalysisDevice.GetComponent<WaterSourceAnalysis>().enabled = false;
             }
-            if (waterAnalysisDevice.name == "waterAnalysisDevice2")
+            if (waterAnalysisDevice.name == "waterAnalysisDevice1")
             {
                 waterAnalysisDevice.GetComponent<WaterSourceAnalysisOne>().enabled = false;
             }

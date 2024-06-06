@@ -8,7 +8,7 @@ public class WaterSourceCommons : MonoBehaviour
     [SerializeField] private LarvicidePlantObject fuzzyPlant, plainPlant, snakePlant;
     public Sprite larvicideSprite, _fullTestTube;
     [SerializeField] public Sprite _emptyTesttube, _emptySprite, medicineSprite;
-    [SerializeField] private GameObject _check, checkOne, checkTwo;
+   
     public AudioSource successSound, collectSound;
     private int fuzzyPlant_amt, plainPlant_amt, snakePlant_amt;
     private string status;
@@ -16,7 +16,7 @@ public class WaterSourceCommons : MonoBehaviour
     public void TextUpdate(
         int _resultsAmount, TextMeshProUGUI fuzzyPlantText, TextMeshProUGUI plainPlantText,
         TextMeshProUGUI snakePlantText, TextMeshProUGUI disinfectedStatus, int _sampleAmount,
-        Button analyseSampleButton, Button createLarvicideButton, bool functionCalled, int plainPlantRecommendedAmount, int snakePlantRecommendedAmount,
+        bool functionCalled, int plainPlantRecommendedAmount, int snakePlantRecommendedAmount,
         int fuzzyPlantRecommendedAmount)
     {
         if (disinfectedStatus.text == "Disinfected")
@@ -30,18 +30,17 @@ public class WaterSourceCommons : MonoBehaviour
         }
        
         CheckPlantAmount(
-            _resultsAmount, fuzzyPlantText, plainPlantText, snakePlantText,
-            createLarvicideButton, plainPlantRecommendedAmount,
+            _resultsAmount, fuzzyPlantText, plainPlantText, snakePlantText, plainPlantRecommendedAmount,
             snakePlantRecommendedAmount, fuzzyPlantRecommendedAmount
         );
 
-        CreateResults(_sampleAmount, analyseSampleButton, disinfectedStatus);
+        CreateResults(_sampleAmount, disinfectedStatus);
     }
 
     public void AnalysisComplete(
         int _resultsAmount, TextMeshProUGUI _resultsAmountText, int _sampleAmount,
         TextMeshProUGUI _sampleAmountText, TextMeshProUGUI fuzzyPlantText, TextMeshProUGUI plainPlantText,
-        TextMeshProUGUI snakePlantText, Button createLarvicideButton, int plainPlantRecommendedAmount,
+        TextMeshProUGUI snakePlantText, int plainPlantRecommendedAmount,
         int snakePlantRecommendedAmount, int fuzzyPlantRecommendedAmount)
     {
         collectSound.Play();
@@ -51,7 +50,7 @@ public class WaterSourceCommons : MonoBehaviour
         _sampleAmountText.text = "Sample = " + _sampleAmount;
         CheckPlantAmount(
             _resultsAmount, fuzzyPlantText, plainPlantText, snakePlantText,
-            createLarvicideButton, plainPlantRecommendedAmount,
+            plainPlantRecommendedAmount,
             snakePlantRecommendedAmount, fuzzyPlantRecommendedAmount
         );
     }
@@ -59,7 +58,7 @@ public class WaterSourceCommons : MonoBehaviour
 
     public void CheckPlantAmount(
         int _resultsAmount, TextMeshProUGUI fuzzyPlantText, TextMeshProUGUI plainPlantText,
-        TextMeshProUGUI snakePlantText, Button createLarvicideButton,
+        TextMeshProUGUI snakePlantText,
         int plainPlantRecommendedAmount, int snakePlantRecommendedAmount, int fuzzyPlantRecommendedAmount)
     {
         for (int i = 0; i < larvicideInventory.Container.Count; i++)
@@ -80,6 +79,10 @@ public class WaterSourceCommons : MonoBehaviour
                 snakePlantText.text = snakePlant_amt + " / " + snakePlantRecommendedAmount;
             }
         }
+        if (fuzzyPlant_amt <= fuzzyPlantRecommendedAmount)fuzzyPlantText.color = Color.red;
+        if(plainPlant_amt <= plainPlantRecommendedAmount)plainPlantText.color = Color.red;
+        if(snakePlant_amt <= snakePlantRecommendedAmount)snakePlantText.color = Color.red;
+
         if (larvicideInventory.Container.Count == 0)
         {
             fuzzyPlantText.text = "0 / " + fuzzyPlantRecommendedAmount;
@@ -91,7 +94,7 @@ public class WaterSourceCommons : MonoBehaviour
                 int _resultsAmount, GameObject waterSourcePlane, int plainPlantRecommendedAmount, 
                 int snakePlantRecommendedAmount, int fuzzyPlantRecommendedAmount, TextMeshProUGUI _resultsAmountText,
                 bool isDisinfecting, TextMeshProUGUI fuzzyPlantText, TextMeshProUGUI plainPlantText,
-                TextMeshProUGUI snakePlantText, bool larvicideCreated)
+                TextMeshProUGUI snakePlantText, bool larvicideCreated, GameObject checkOne, GameObject checkTwo, GameObject _check)
     {
         if (fuzzyPlant_amt >= fuzzyPlantRecommendedAmount && plainPlant_amt >= plainPlantRecommendedAmount 
             && snakePlant_amt >= snakePlantRecommendedAmount && 
@@ -109,6 +112,7 @@ public class WaterSourceCommons : MonoBehaviour
             ApplyLarvicide(waterSourcePlane,plainPlantRecommendedAmount, snakePlantRecommendedAmount, 
                 fuzzyPlantRecommendedAmount, fuzzyPlantText, plainPlantText, snakePlantText, _larvicideAmount, _larvicideAmountText);
         }
+       
     }
 
 
@@ -121,11 +125,10 @@ public class WaterSourceCommons : MonoBehaviour
     }
 
     
-    public void CreateResults(int _sampleAmount, Button analyseSampleButton, TextMeshProUGUI disinfectedStatus)
+    public void CreateResults(int _sampleAmount, TextMeshProUGUI disinfectedStatus)
     {
         if (_sampleAmount >= 1)
         {
-            analyseSampleButton.interactable = true;
             disinfectedStatus.text = "Untreated";
             disinfectedStatus.color = Color.yellow;
         }

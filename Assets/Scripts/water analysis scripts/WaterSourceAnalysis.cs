@@ -9,16 +9,13 @@ public class WaterSourceAnalysis : MonoBehaviour
     [SerializeField] private WaterSourceCommons waterSourceCommons;
     [SerializeField] private GameObject waterSourcePlane, _watersorceAnalysisPanel, ResultsPanel;
     [SerializeField] private GameObject _takeSample, _disinfectPanel;
-    [SerializeField] public TextMeshProUGUI _resultsAmountText, _larvicideAmountText;
-    [SerializeField] public TextMeshProUGUI _sampleAmountText;
-    [SerializeField] private TextMeshProUGUI _larvaePercText, _algaePercText, _snailsPercText, _insectPercText;
-    [SerializeField] private TextMeshProUGUI _resultStrength;
+    [SerializeField] public TextMeshProUGUI _sampleAmountText, _resultsAmountText, _larvicideAmountText;
+    [SerializeField] private TextMeshProUGUI _larvaePercText, _algaePercText, _snailsPercText, _insectPercText, _resultStrength;
     [SerializeField] Image currentTask;
     [SerializeField] GameObject parentTask;
-    [SerializeField] private TextMeshProUGUI fuzzyPlantText, plainPlantText, snakePlantText;
-    [SerializeField] private Button createLarvicideButton, analyseSampleButton;
-    [SerializeField] public Button TakeSampleButton;
-    [SerializeField] public TextMeshProUGUI disinfectedStatus;
+    [SerializeField] private TextMeshProUGUI fuzzyPlantText, plainPlantText, snakePlantText, disinfectedStatus;
+    [SerializeField] private TextMeshProUGUI TakeSampleButton, createLarvicideButton, analyseSampleButton;
+    [SerializeField] private GameObject _check, checkOne, checkTwo;
     private BoxCollider waterPlaneCollider;
     private Transform player;
     private ResultsGenerator resultsGenerator;
@@ -46,12 +43,12 @@ public class WaterSourceAnalysis : MonoBehaviour
             snakePlantText.text = "N/A";
         }
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             _watersorceAnalysisPanel.SetActive(true);
+            //ResetText();
             UpdateUI();
         }
     }
@@ -68,6 +65,7 @@ public class WaterSourceAnalysis : MonoBehaviour
     {
         if (_watersorceAnalysisPanel.activeSelf)
         {
+
             if (Input.GetKeyDown(KeyCode.T))
             {
                 if (_sampleAmount == 0 && _resultsAmount == 0 && _larvicideAmount == 0)
@@ -77,8 +75,12 @@ public class WaterSourceAnalysis : MonoBehaviour
                     parentTask.SetActive(true);
                 }
             }
+            if (_sampleAmount == 0 && _resultsAmount == 0 && _larvicideAmount == 0)
+            {
+                TakeSampleButton.color = Color.green;
+            }
 
-          
+
             if (Input.GetKeyDown(KeyCode.R))
             {
                 if (_sampleAmount == 1 && _resultsAmount == 0 && resultsGenerated == false)
@@ -93,7 +95,7 @@ public class WaterSourceAnalysis : MonoBehaviour
                     waterSourceCommons.ClickCreateLarvicideButton(currentTask,
                  _larvicideAmount, _larvicideAmountText, _resultsAmount, waterSourcePlane,
                  plainPlantRecommendedAmount, snakePlantRecommendedAmount, fuzzyPlantRecommendedAmount,
-                 _resultsAmountText, isDisinfecting, fuzzyPlantText, plainPlantText, snakePlantText, larvicideCreated);
+                 _resultsAmountText, isDisinfecting, fuzzyPlantText, plainPlantText, snakePlantText, larvicideCreated, checkOne, checkTwo, _check);
 
                 }
             }
@@ -111,15 +113,16 @@ public class WaterSourceAnalysis : MonoBehaviour
             _disinfectPanel.SetActive(true);
             Invoke("UpdateLarvicideApplication", 1.5f);
         }
-        else if(!isDisinfecting)
+        else if (!isDisinfecting)
         {
             _takeSample.SetActive(true);
-            
+
             currentTask.sprite = waterSourceCommons._fullTestTube;
-            
+
             _sampleAmount++;
             _sampleAmountText.text = "Sample = " + _sampleAmount;
-            TakeSampleButton.interactable = false;
+            TakeSampleButton.color = Color.white;
+            analyseSampleButton.color = Color.green;
         }
         Invoke("HidePanel", 1.5f);
     }
@@ -147,11 +150,13 @@ public class WaterSourceAnalysis : MonoBehaviour
     {
         waterSourceCommons.AnalysisComplete(
             _resultsAmount, _resultsAmountText, _sampleAmount, _sampleAmountText,
-            fuzzyPlantText, plainPlantText, snakePlantText, createLarvicideButton,
+            fuzzyPlantText, plainPlantText, snakePlantText,
             plainPlantRecommendedAmount, snakePlantRecommendedAmount, fuzzyPlantRecommendedAmount
         );
+        analyseSampleButton.color = Color.white;
+        createLarvicideButton.color = Color.green;
     }
-   
+
 
     private void HidePanel()
     {
@@ -159,7 +164,7 @@ public class WaterSourceAnalysis : MonoBehaviour
         {
             _disinfectPanel.SetActive(false);
             _larvicideAmount--;
-            TakeSampleButton.interactable = true;
+            createLarvicideButton.color = Color.white;
         }
         else
         {
@@ -182,8 +187,7 @@ public class WaterSourceAnalysis : MonoBehaviour
     {
         waterSourceCommons.TextUpdate(
             _resultsAmount, fuzzyPlantText, plainPlantText, snakePlantText,
-            disinfectedStatus, _sampleAmount, analyseSampleButton, createLarvicideButton,
-            functionCalled, plainPlantRecommendedAmount, snakePlantRecommendedAmount, fuzzyPlantRecommendedAmount
+            disinfectedStatus, _sampleAmount, functionCalled, plainPlantRecommendedAmount, snakePlantRecommendedAmount, fuzzyPlantRecommendedAmount
         );
     }
 }

@@ -75,6 +75,10 @@ namespace StarterAssets
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
+        public float WaterCheckRadius;
+        public LayerMask WaterLayer;
+        public float WaterHeightOffset = 0.5f;
+
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -109,6 +113,7 @@ namespace StarterAssets
         private const float _threshold = 0.01f;
 
         private bool _hasAnimator;
+        private bool _isInWater;
 
         private bool IsCurrentDeviceMouse
         {
@@ -277,7 +282,24 @@ namespace StarterAssets
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
+            CheckWater();
         }
+
+        private void CheckWater()
+        {
+            // Assuming you have a layer or tag for water
+            bool wasInWater = _isInWater;
+            _isInWater = Physics.CheckSphere(transform.position, WaterCheckRadius, WaterLayer);
+
+            if (_isInWater && !wasInWater)
+            {
+                // Raise the player slightly to prevent sinking into the ground
+                Vector3 newPosition = transform.position;
+                newPosition.y += WaterHeightOffset;
+                _controller.Move(newPosition - transform.position);
+            }
+        }
+
 
         private void JumpAndGravity()
         {
@@ -367,6 +389,9 @@ namespace StarterAssets
             Gizmos.DrawSphere(
                 new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z),
                 GroundedRadius);
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, WaterCheckRadius);
         }
 
         private void OnFootstep(AnimationEvent animationEvent)

@@ -97,7 +97,7 @@ void HideDropPanel(){
     labInventory.Container.Clear();
     reducedLabProcessingPanel.SetActive(true);
     successSound.Play();
-    float reducedtime = 1/clip.frameRate*1000/60;
+    float reducedtime =  1/clip.frameRate*1000/60;
     reducedTimeText.text = "Lab Processing Time is now : " + reducedtime;
     droppedItemsText.text = "You dropped : " + droppedItems + "items";
 }

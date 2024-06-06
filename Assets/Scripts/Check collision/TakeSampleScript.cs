@@ -9,11 +9,11 @@ public class TakeSampleScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if(waterAnalysisDevice.name == "waterAnalysisDevice1")
+            if(waterAnalysisDevice.name == "waterAnalysisDevice")
             {
                 waterAnalysisDevice.GetComponent<WaterSourceAnalysis>().WaterPanel();
             }
-            if (waterAnalysisDevice.name == "waterAnalysisDevice2")
+            if (waterAnalysisDevice.name == "waterAnalysisDevice1")
             {
                 waterAnalysisDevice.GetComponent<WaterSourceAnalysisOne>().WaterPanel();
             }

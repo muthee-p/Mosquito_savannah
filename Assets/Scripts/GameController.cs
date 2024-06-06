@@ -10,17 +10,31 @@ public class GameController : MonoBehaviour
     [SerializeField] private InventoryObject _labInventory, _medicinalPlantsInventory, _larvicidePlantInventory;
     [SerializeField] private Image[] _itemImages;
     [SerializeField] private TextMeshProUGUI[] _itemAmountText;
+    [SerializeField] private GameObject[] lights;
     [SerializeField] private TextMeshProUGUI _heading;
+    [SerializeField] private Light directionalLight;
+    [SerializeField] private Material nightSkyBox, daySkybox;
     [SerializeField] Button labButton, MedicineButton, larvicideButton;
     [SerializeField] Image _currentTask;
     [SerializeField] Sprite _emptySprite;
     private InventoryObject _currentInventory;
-   
+    public float rotationSpeed = 1.0f;
+    public float nightIntensity = 0.3f;
+    public float dayIntensity = 1f;
+    public float transitionSpeed = 1.0f;
+    private float currentIntensity;
+
+    public float dayFogDensity = 0.003f;
+    public float nightFogDensity = 0.0003f;
+    private float currentFogDensity;
 
     void Start(){
         _currentInventory=_labInventory;
         labButton.interactable= false;
         Invoke("HideLoadingScreen", 5);
+        currentIntensity = RenderSettings.skybox.GetFloat("_Exposure");
+        currentFogDensity = RenderSettings.fogDensity;
+
     }
 
     void Update(){
@@ -49,10 +63,51 @@ public class GameController : MonoBehaviour
             {
                  OpenInstructions();
             }
-            if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Exit();
+        }
+
+        float xRotation = directionalLight.transform.eulerAngles.x;
+
+        if (xRotation >= 240f && xRotation <= 320f)
+        {
+            RenderSettings.skybox = nightSkyBox;
+        }
+        else
+        {
+            RenderSettings.skybox = daySkybox;
+        }
+
+        // Rotate the skybox
+        RenderSettings.skybox.SetFloat("_Rotation", Time.time * rotationSpeed);
+        float targetIntensity;
+        if (xRotation >= 180f && xRotation <= 360f)
+        {
+            targetIntensity = nightIntensity;
+            foreach (var light in lights)
             {
-                Exit();
+                light.SetActive(true);
             }
+        }
+        else
+        {
+            targetIntensity = dayIntensity;
+            foreach (var light in lights)
+            {
+                light.SetActive(false);
+            }
+        }
+
+        // Smoothly transition to the target intensity
+        currentIntensity = Mathf.Lerp(currentIntensity, targetIntensity, Time.deltaTime * transitionSpeed);
+        RenderSettings.skybox.SetFloat("_Exposure", currentIntensity);
+
+        float targetFogDensity = Mathf.Lerp(nightFogDensity, dayFogDensity, Mathf.InverseLerp(270f, 90f, xRotation));
+
+        // Smoothly transition to the target fog density
+        currentFogDensity = Mathf.Lerp(currentFogDensity, targetFogDensity, Time.deltaTime * transitionSpeed);
+        RenderSettings.fogDensity = currentFogDensity;
     }
     public void OpenInventoryPanel(){
         _inventoryPanel.SetActive(true);
