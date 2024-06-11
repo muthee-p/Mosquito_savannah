@@ -5,33 +5,41 @@ using UnityEngine.UI;
 
 public class CreateMedicineScript: MonoBehaviour {
 
-    [SerializeField] private GameObject[] waterAnalysisDevices;
+
+   
+    [SerializeField] private Image[] currentTasks;
     [SerializeField] private GameObject _createMedicinePanel, labProgressBarPanel,  medicinereadyPanel;
-   [SerializeField] private InventoryObject _medicinalPlantsInventory;
-   [SerializeField] private TextMeshProUGUI _lavenderText, _redheadText, _glowingText, _orangeflowerText;
-   [SerializeField] public TextMeshProUGUI _medicineAmountText;
-   [SerializeField] private  CurePlantObject lavenderPlant, redheadPlant, glowingPlant, orangeFlowerPlant;
-   [SerializeField] private TextMeshProUGUI _createMedicineButton, _pickMedicineButton;
-   [SerializeField] private TextMeshProUGUI _createMedicineButtonText, _pickMedicineButtonText;
-   [SerializeField] private Image currentTask;
-   [SerializeField] private Sprite medicineSprite;
+    [SerializeField] private InventoryObject _medicinalPlantsInventory;
+    [SerializeField] private TextMeshProUGUI _lavenderText, _redheadText, _glowingText, _orangeflowerText;
+    [SerializeField] public TextMeshProUGUI _medicineAmountText;
+    [SerializeField] private  CurePlantObject lavenderPlant, redheadPlant, glowingPlant, orangeFlowerPlant;
+    [SerializeField] private TextMeshProUGUI _createMedicineButton, _pickMedicineButton;
+    [SerializeField] private TextMeshProUGUI _createMedicineButtonText, _pickMedicineButtonText;
+    [SerializeField] public Sprite  medicineSprite;
     [SerializeField] private AnimationClip clip;
-    List<int> ResultList; 
-    private AudioSource successSound, collectSound;
+    public List<Image> ResultList; 
+    public AudioSource successSound, collectSound;
     private int _lavenderAmount, _redheadAmount, _glowingAmount, _orangeflowerAmount;
     public int _medicineAmount;
     private float labProcessingTime;
     private int results, resultsOne;
+    bool interactable;
 
     void Start(){
         successSound= GameObject.Find("successSound").GetComponent<AudioSource>();
          collectSound = GameObject.Find("collectSound").GetComponent<AudioSource>();
          labProcessingTime= clip.frameRate *400;
-        ResultList = new List<int>();
+        ResultList = new List<Image>();
         //labProcessingTime = GameObject.Find("DropItems").GetComponent<LabCollectedItems>().labprocessingTime;
 
     }
     void Update () {
+        if (Input.GetKeyDown(KeyCode.Z) && interactable)
+        {
+            _createMedicinePanel.SetActive(true);
+           
+            UpdateText();
+        }
         if (Input.GetKeyDown(KeyCode.M))
             {
                  CreateMedicine();
@@ -40,16 +48,14 @@ public class CreateMedicineScript: MonoBehaviour {
             {
                 PickMedicine();
             }
-        UpdateText();
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            _createMedicinePanel.SetActive(true);
+            interactable = true;
             CheckPlantAmount();
-           UpdateText();
-            
+            UpdateText();
         }
     }
     private void OnTriggerExit(Collider other)
@@ -57,21 +63,16 @@ public class CreateMedicineScript: MonoBehaviour {
         if (other.CompareTag("Player"))
         {
             _createMedicinePanel.SetActive(false);
+            interactable = false;
         }
     }
     void GetResults()
     {
-        foreach (var waterAnalysisDevice in waterAnalysisDevices)
+        foreach (var task in currentTasks)
         {
-            if (waterAnalysisDevice.name == "waterAnalysisDevice")
+            if (task.sprite != null && task.sprite==medicineSprite && task.color.a==0.6f)
             {
-                results = waterAnalysisDevice.GetComponent<WaterSourceAnalysis>()._resultsAmount;
-                ResultList.Add(results);
-            }
-            if (waterAnalysisDevice.name == "waterAnalysisDevice1")
-            {
-                resultsOne = waterAnalysisDevice.GetComponent<WaterSourceAnalysisOne>()._resultsAmount;
-                ResultList.Add(resultsOne);
+                ResultList.Add(task);
             }
         }
 
@@ -97,20 +98,28 @@ public class CreateMedicineScript: MonoBehaviour {
                 _orangeflowerText.text= _orangeflowerAmount + " /3";
             }
         }
-        if (_lavenderAmount <= 3 && _redheadAmount <= 1 && _glowingAmount <= 2 && _orangeflowerAmount <= 3 && ResultList.Count>0)
+        if (_lavenderAmount >= 3 && _redheadAmount >= 1 && _glowingAmount >= 2 && _orangeflowerAmount >= 3 && ResultList.Count>0)
         {
             _createMedicineButton.color = Color.green;
         }
     }
    
-   
-
-    
     public void CreateMedicine(){
-        if (_lavenderAmount <= 3 && _redheadAmount <= 1 && _glowingAmount <= 2 && _orangeflowerAmount <= 3 && ResultList.Count > 0)
+       
+       
+        GetResults();
+        CheckPlantAmount();
+        Debug.Log(ResultList.Count);
+        Debug.Log(_lavenderAmount + _redheadAmount + _glowingAmount + _orangeflowerAmount);
+        if (_lavenderAmount >= 3 && _redheadAmount >= 1 && _glowingAmount >= 2 && _orangeflowerAmount >= 3 && ResultList.Count > 0)
         {
+                
             _createMedicineButton.color = Color.green;
             collectSound.Play();
+            _lavenderAmount-=3;
+            _redheadAmount--;
+            _glowingAmount -= 2;
+            _orangeflowerAmount -= 3;
             labProgressBarPanel.SetActive(true);
             _pickMedicineButtonText.text = "Processing...";
             Invoke("MedicineReady", labProcessingTime);
@@ -128,9 +137,16 @@ public class CreateMedicineScript: MonoBehaviour {
         Invoke("HideMedicineReadyPane",1.5f);
     }
     public void PickMedicine(){
+        interactable= false;
         collectSound.Play();
         _createMedicinePanel.SetActive(false);
-        currentTask.sprite = medicineSprite;
+        foreach (var task in currentTasks)
+        {
+            Color imagecolor = task.color;
+            imagecolor.a = 1f;
+            task.color = imagecolor;
+        }
+        //currentTask.sprite = medicineSprite;
     }
     private void HideMedicineReadyPane(){
          medicinereadyPanel.SetActive(false);

@@ -6,7 +6,7 @@ public class WaterSourceCommons : MonoBehaviour
 {
     [SerializeField] private InventoryObject larvicideInventory;
     [SerializeField] private LarvicidePlantObject fuzzyPlant, plainPlant, snakePlant;
-    public Sprite larvicideSprite, _fullTestTube;
+    public Sprite larvicideSprite, _fullTestTube, clipboard;
     [SerializeField] public Sprite _emptyTesttube, _emptySprite, medicineSprite;
    
     public AudioSource successSound, collectSound;
@@ -46,6 +46,7 @@ public class WaterSourceCommons : MonoBehaviour
         collectSound.Play();
         _resultsAmount++;
         _resultsAmountText.text = "Results = " + _resultsAmount;
+        
         _sampleAmount--;
         _sampleAmountText.text = "Sample = " + _sampleAmount;
         CheckPlantAmount(
@@ -79,9 +80,9 @@ public class WaterSourceCommons : MonoBehaviour
                 snakePlantText.text = snakePlant_amt + " / " + snakePlantRecommendedAmount;
             }
         }
-        if (fuzzyPlant_amt <= fuzzyPlantRecommendedAmount)fuzzyPlantText.color = Color.red;
-        if(plainPlant_amt <= plainPlantRecommendedAmount)plainPlantText.color = Color.red;
-        if(snakePlant_amt <= snakePlantRecommendedAmount)snakePlantText.color = Color.red;
+        if (fuzzyPlant_amt < fuzzyPlantRecommendedAmount)fuzzyPlantText.color = Color.red;
+        if(plainPlant_amt < plainPlantRecommendedAmount)plainPlantText.color = Color.red;
+        if(snakePlant_amt < snakePlantRecommendedAmount)snakePlantText.color = Color.red;
 
         if (larvicideInventory.Container.Count == 0)
         {

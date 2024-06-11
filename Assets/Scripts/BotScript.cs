@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BotScript : MonoBehaviour
 {
+    [SerializeField] private CreateMedicineScript createMedicineScript;
     [SerializeField] private GameObject _sendingPanel, _botAvailabilityPanel, portal;
     [SerializeField] private AnimationClip clip;
     [SerializeField] private TextMeshProUGUI _availabilityText;
@@ -18,6 +19,8 @@ public class BotScript : MonoBehaviour
     public float _malariaReductionAmount = 0.1f;
     private string  _medicineAmountText;
 
+    bool interactable = false;
+
     void Start(){
         Bot = GameObject.FindGameObjectWithTag("Bot");
         sendBotSound= GameObject.Find("sendBotSound").GetComponent<AudioSource>();
@@ -28,32 +31,18 @@ public class BotScript : MonoBehaviour
 
      private void OnTriggerEnter(Collider other)
     {
-        if(_medicineAmount<=1){
-            if(_isBotAvailable){
-                if (other.CompareTag("Player"))
-                {
-                    _sendingPanel.SetActive(true);
-                    Invoke("SendBot", 2);
-                    Invoke("ReduceMalaria", 10);
-                    Invoke("BotCharging", 22);
-                    Invoke("BotBack", _deliveryTime);
-                }
-                else if(_isBotAvailable &&_isBotCharging){
-                    _isPanelUp=true;
-                    _botAvailabilityPanel.SetActive(true);
-                    _availabilityText.text = "Bot Is Charging";
-                } 
-                else{
-                    _isPanelUp=true;
-                    _botAvailabilityPanel.SetActive(true);
-                    _availabilityText.text="BotAvailable";
-                    Invoke("CloseAvailabilityPanel",1);
-                }
-            }
+
+        if (other.CompareTag("Player"))
+        {
+            interactable = true;
         }
     }
     void Update(){
         _medicineAmountText="Medicine Amount = " + _medicineAmount;
+        if (Input.GetKeyDown(KeyCode.Z) && interactable)
+        {
+            GetMeds();
+        }
     }
     private void OnTriggerExit(Collider other)
     {
@@ -65,6 +54,39 @@ public class BotScript : MonoBehaviour
                 
         }
     }
+    private void GetMeds()
+    {
+        foreach (var item in createMedicineScript.ResultList)
+        {
+            if(item.sprite == createMedicineScript.medicineSprite && item.color.a == 1f)
+            {
+                _medicineAmount++;
+            }
+        }
+        if (_medicineAmount >= 1)
+        {
+                    _sendingPanel.SetActive(true);
+                    Invoke("SendBot", 2);
+                    Invoke("ReduceMalaria", 10);
+                    Invoke("BotCharging", 22);
+                    Invoke("BotBack", _deliveryTime);
+        
+               /* else if (_isBotAvailable && _isBotCharging)
+                {
+                    _isPanelUp = true;
+                    _botAvailabilityPanel.SetActive(true);
+                    _availabilityText.text = "Bot Is Charging";
+                }
+                else
+                {
+                    _isPanelUp = true;
+                    _botAvailabilityPanel.SetActive(true);
+                    _availabilityText.text = "BotAvailable";
+                    Invoke("CloseAvailabilityPanel", 1);
+                }*/
+            
+        }
+    }
 
     private void SendBot(){
         _isBotAvailable=false;
@@ -72,12 +94,22 @@ public class BotScript : MonoBehaviour
         Bot.GetComponent<Animator>().SetTrigger("bot");
         sendBotSound.Play();
         portal.SetActive(true);
+        foreach (var item in createMedicineScript.ResultList)
+        {
+            if (item.sprite == createMedicineScript.medicineSprite && item.color.a == 1f)
+            {
+                GameObject _parent = item.transform.parent.gameObject;
+                _parent.SetActive(false);
+            }
+        }
     }
 
     private void ReduceMalaria(){
-        _medicineAmount--;
-        //successSound.Play();
+        
+        createMedicineScript.successSound.Play();
+        _medicineAmount *=_medicineAmount;
        clip.frameRate += _malariaReductionAmount;
+        _medicineAmount--;
     }
     void BotBack(){
         _isBotAvailable = true;
@@ -91,5 +123,6 @@ public class BotScript : MonoBehaviour
     void CloseAvailabilityPanel(){
          _botAvailabilityPanel.SetActive(false);
         _isPanelUp=false;
+        interactable=false;
     }
 }

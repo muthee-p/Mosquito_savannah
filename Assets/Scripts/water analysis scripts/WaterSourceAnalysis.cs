@@ -4,8 +4,7 @@ using UnityEngine;
 
 
 public class WaterSourceAnalysis : MonoBehaviour
-{
-    [SerializeField] private WaterSourceAnalysisOne waterSourceAnalysisOne;
+{ 
     [SerializeField] private WaterSourceCommons waterSourceCommons;
     [SerializeField] private GameObject waterSourcePlane, _watersorceAnalysisPanel, ResultsPanel;
     [SerializeField] private GameObject _takeSample, _disinfectPanel;
@@ -28,10 +27,10 @@ public class WaterSourceAnalysis : MonoBehaviour
     private bool resultsGenerated = false;
     bool isDisinfecting = false;
     bool larvicideCreated = false;
+    bool interactable;
 
     void Start()
     {
-        waterSourceAnalysisOne.enabled = false;
         resultsGenerator = ResultsPanel.GetComponent<ResultsGenerator>();
         waterPlaneCollider = waterSourcePlane.GetComponent<BoxCollider>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -47,7 +46,7 @@ public class WaterSourceAnalysis : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            _watersorceAnalysisPanel.SetActive(true);
+            interactable = true; 
             //ResetText();
             UpdateUI();
         }
@@ -57,17 +56,21 @@ public class WaterSourceAnalysis : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            _watersorceAnalysisPanel.SetActive(false);
+            HideWaterSourceAnalysisPanel();
         }
     }
 
     void Update()
     {
-        if (_watersorceAnalysisPanel.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Z) && interactable){
+            _watersorceAnalysisPanel.SetActive(true);
+        }
+            if (_watersorceAnalysisPanel.activeSelf)
         {
 
             if (Input.GetKeyDown(KeyCode.T))
             {
+                Debug.Log(_sampleAmount + _sampleAmount + _larvicideAmount);
                 if (_sampleAmount == 0 && _resultsAmount == 0 && _larvicideAmount == 0)
                 {
                     waterSourceCommons.TakeSample(waterSourcePlane, currentTask, _watersorceAnalysisPanel);
@@ -130,6 +133,7 @@ public class WaterSourceAnalysis : MonoBehaviour
     public void HideWaterSourceAnalysisPanel()
     {
         _watersorceAnalysisPanel.SetActive(false);
+        interactable = false;
     }
 
     public void AnalyseSample()
@@ -153,6 +157,7 @@ public class WaterSourceAnalysis : MonoBehaviour
             fuzzyPlantText, plainPlantText, snakePlantText,
             plainPlantRecommendedAmount, snakePlantRecommendedAmount, fuzzyPlantRecommendedAmount
         );
+        currentTask.sprite = waterSourceCommons.clipboard;
         analyseSampleButton.color = Color.white;
         createLarvicideButton.color = Color.green;
     }

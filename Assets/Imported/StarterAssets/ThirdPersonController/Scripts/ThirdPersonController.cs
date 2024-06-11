@@ -114,6 +114,7 @@ namespace StarterAssets
 
         private bool _hasAnimator;
         private bool _isInWater;
+        public AudioSource swimmingSound;
 
         private bool IsCurrentDeviceMouse
         {
@@ -297,6 +298,11 @@ namespace StarterAssets
                 Vector3 newPosition = transform.position;
                 newPosition.y += WaterHeightOffset;
                 _controller.Move(newPosition - transform.position);
+                swimmingSound.Play();
+            }
+            else if (!wasInWater && !_isInWater)
+            {
+                swimmingSound.Stop();
             }
         }
 

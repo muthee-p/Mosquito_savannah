@@ -17,6 +17,22 @@ public class TakeSampleScript : MonoBehaviour
             {
                 waterAnalysisDevice.GetComponent<WaterSourceAnalysisOne>().WaterPanel();
             }
+            if (waterAnalysisDevice.name == "waterAnalysisDevice2")
+            {
+                waterAnalysisDevice.GetComponent<WaterSourceAnalysisTwo>().WaterPanel();
+            }
+            if (waterAnalysisDevice.name == "waterAnalysisDevice3")
+            {
+                waterAnalysisDevice.GetComponent<WaterSourceAnalysisThree>().WaterPanel();
+            }
+            if (waterAnalysisDevice.name == "waterAnalysisDevice4")
+            {
+                waterAnalysisDevice.GetComponent<WaterSourceAnalysisFour>().WaterPanel();
+            }
+            if (waterAnalysisDevice.name == "waterAnalysisDevice5")
+            {
+                waterAnalysisDevice.GetComponent<WaterSourceAnalysisFive>().WaterPanel();
+            }
 
         }
     }
