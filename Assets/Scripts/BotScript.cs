@@ -6,7 +6,7 @@ using UnityEngine;
 public class BotScript : MonoBehaviour
 {
     [SerializeField] private CreateMedicineScript createMedicineScript;
-    [SerializeField] private GameObject _sendingPanel, _botAvailabilityPanel, portal;
+    [SerializeField] private GameObject _sendingPanel, _botAvailabilityPanel, portal,z;
     [SerializeField] private AnimationClip clip;
     [SerializeField] private TextMeshProUGUI _availabilityText;
     private GameObject Bot;
@@ -34,8 +34,19 @@ public class BotScript : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            interactable = true;
+            
+            
+            if (_isBotCharging)
+            {
+                _isPanelUp = true;
+                _botAvailabilityPanel.SetActive(true);
+                _availabilityText.text = "Bot Is Charging";
+            }
+            else {
+                interactable = true;
+            }
         }
+        
     }
     void Update(){
         _medicineAmountText="Medicine Amount = " + _medicineAmount;
@@ -56,7 +67,7 @@ public class BotScript : MonoBehaviour
     }
     private void GetMeds()
     {
-        foreach (var item in createMedicineScript.ResultList)
+       /* foreach (var item in createMedicineScript.ResultList)
         {
             if(item.sprite == createMedicineScript.medicineSprite && item.color.a == 1f)
             {
@@ -64,28 +75,25 @@ public class BotScript : MonoBehaviour
             }
         }
         if (_medicineAmount >= 1)
-        {
+        {*/
                     _sendingPanel.SetActive(true);
                     Invoke("SendBot", 2);
                     Invoke("ReduceMalaria", 10);
-                    Invoke("BotCharging", 22);
+                    Invoke("BotCharging", 82);
                     Invoke("BotBack", _deliveryTime);
-        
-               /* else if (_isBotAvailable && _isBotCharging)
-                {
-                    _isPanelUp = true;
-                    _botAvailabilityPanel.SetActive(true);
-                    _availabilityText.text = "Bot Is Charging";
-                }
-                else
-                {
-                    _isPanelUp = true;
-                    _botAvailabilityPanel.SetActive(true);
-                    _availabilityText.text = "BotAvailable";
-                    Invoke("CloseAvailabilityPanel", 1);
-                }*/
-            
-        }
+        z.SetActive(false);
+
+
+               
+       /* else
+        {
+            _isPanelUp = true;
+            _botAvailabilityPanel.SetActive(true);
+            _availabilityText.text = "BotAvailable";
+            Invoke("CloseAvailabilityPanel", 1);
+        }*/
+
+        //}
     }
 
     private void SendBot(){
@@ -112,6 +120,7 @@ public class BotScript : MonoBehaviour
         _medicineAmount--;
     }
     void BotBack(){
+        z.SetActive(true);
         _isBotAvailable = true;
         _isBotCharging= false;
     }

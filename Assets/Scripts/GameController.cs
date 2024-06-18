@@ -89,7 +89,7 @@ public class GameController : MonoBehaviour
         foreach (var light in lights)
             {
             xRotation = directionalLight.transform.eulerAngles.x;
-            if (xRotation >= 200f && xRotation <= -30f)
+            if(xRotation >= 180f && xRotation < 330f)
                 {
                     light.SetActive(true);
                 }else light.SetActive(false);
